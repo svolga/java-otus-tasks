@@ -2,11 +2,12 @@ package homework;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 
 public class CustomerService {
 
-    private final TreeMap<Customer, String> treeMap;
+    private final NavigableMap<Customer, String> treeMap;
 
     public CustomerService() {
         treeMap = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
@@ -17,12 +18,7 @@ public class CustomerService {
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
-        return getCopy(
-                treeMap.entrySet().stream()
-                        .filter(e -> e.getKey().getScores() > customer.getScores())
-                        .findFirst()
-                        .orElse(null)
-        );
+        return getCopy(treeMap.higherEntry(customer));
     }
 
     public void add(Customer customer, String data) {
