@@ -7,22 +7,22 @@ import java.util.TreeMap;
 
 public class CustomerService {
 
-    private final NavigableMap<Customer, String> treeMap;
+    private final NavigableMap<Customer, String> map;
 
     public CustomerService() {
-        treeMap = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
+        map = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
     }
 
     public Map.Entry<Customer, String> getSmallest() {
-        return getCopy(treeMap.firstEntry());
+        return getCopy(map.firstEntry());
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
-        return getCopy(treeMap.higherEntry(customer));
+        return getCopy(map.higherEntry(customer));
     }
 
     public void add(Customer customer, String data) {
-        treeMap.put(customer, data);
+        map.put(customer, data);
     }
 
     private Map.Entry<Customer, String> getCopy(Map.Entry<Customer, String> entry) {
