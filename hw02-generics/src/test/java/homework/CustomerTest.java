@@ -4,12 +4,18 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class CustomerTest {
 
-    // Все тесты должны проходить, менять тесты не надо.
+
+    public void demo(){
+        System.out.println("Text from demo message");
+    }
+
 
     @Test
     @DisplayName("Проверяем, что класс Customer не сломан")
