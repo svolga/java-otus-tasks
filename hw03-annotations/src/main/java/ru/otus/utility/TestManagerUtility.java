@@ -1,66 +1,72 @@
 package ru.otus.utility;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.otus.annotations.After;
 import ru.otus.annotations.Before;
 import ru.otus.annotations.Test;
-import ru.otus.model.StatInfo;
+import ru.otus.model.StatisticReflectionInfo;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 public class TestManagerUtility {
+    private static final Logger logger = LoggerFactory.getLogger(TestManagerUtility.class);
 
     private TestManagerUtility() {
     }
 
-    private static List<String> getMethodsWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotationClass) {
-        Method[] methods = clazz.getMethods();
-        List<String> methodsWithAnnotation = new ArrayList<>();
-        for (Method method : methods) {
-            if (method.isAnnotationPresent(annotationClass)) {
-                methodsWithAnnotation.add(method.getName());
+    public static StatisticReflectionInfo runTest(Class<?> clazz) throws Exception {
+
+        StatisticReflectionInfo statisticReflectionInfo = new StatisticReflectionInfo();
+        Set<Method> beforeMethods = ReflectionHelper.getMethodsWithAnnotation(clazz, Before.class);
+        Set<Method> afterMethods = ReflectionHelper.getMethodsWithAnnotation(clazz, After.class);
+        Set<Method> testMethods = ReflectionHelper.getMethodsWithAnnotation(clazz, Test.class);
+
+        for (Method testMethod : testMethods) {
+            Object object = clazz.getDeclaredConstructor().newInstance();
+
+            if (!invokeBeforeMethods(object, beforeMethods, testMethod, statisticReflectionInfo)) {
+                continue;
             }
-        }
-        return methodsWithAnnotation;
-    }
 
-    private static void invokeMethod(Object object, String method, StatInfo statInfo) {
-        try {
-            Method invMethod = object.getClass().getMethod(method);
-            invMethod.invoke(object);
-            if (statInfo != null) {
-                statInfo.addSuccess(method);
-            }
-        } catch (Exception e) {
-            if (statInfo != null) {
-                statInfo.addFailed(method);
-            }
-            System.out.println("Failure to run method --> " + method + "; Exception --> " + e.getCause().getMessage());
-        }
-    }
-
-    private static void invokeMethods(Object object, List<String> methods) {
-        for (String method : methods) {
-            invokeMethod(object, method, null);
-        }
-    }
-
-    public static StatInfo runTest(Class<?> clazz) throws Exception {
-
-        List<String> beforeMethods = getMethodsWithAnnotation(clazz, Before.class);
-        List<String> afterMethods = getMethodsWithAnnotation(clazz, After.class);
-        List<String> testMethods = getMethodsWithAnnotation(clazz, Test.class);
-        Object object = clazz.getDeclaredConstructor().newInstance();
-        StatInfo statInfo = new StatInfo();
-
-        for (String testMethod : testMethods) {
-            invokeMethods(object, beforeMethods);
-            invokeMethod(object, testMethod, statInfo);
+            invokeTestMethod(object, testMethod, statisticReflectionInfo);
             invokeMethods(object, afterMethods);
         }
-        return statInfo;
+
+        return statisticReflectionInfo;
+    }
+
+    private static boolean invokeBeforeMethods(Object object, Set<Method> methods, Method testMethod,
+                                               StatisticReflectionInfo statisticReflectionInfo) {
+        for (Method method : methods) {
+            try {
+                ReflectionHelper.invokeMethod(object, method);
+            } catch (Exception e) {
+                logMethodException(method, e);
+                statisticReflectionInfo.addFailed(testMethod);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void invokeTestMethod(Object object, Method testMethod, StatisticReflectionInfo statisticReflectionInfo) {
+        try {
+            ReflectionHelper.invokeMethod(object, testMethod);
+            statisticReflectionInfo.addSuccess(testMethod);
+        } catch (Exception e) {
+            logMethodException(testMethod, e);
+            statisticReflectionInfo.addFailed(testMethod);
+        }
+    }
+
+    private static void invokeMethods(Object object, Set<Method> methods) {
+        methods.forEach(method -> ReflectionHelper.invokeMethod(object, method));
+    }
+
+    private static void logMethodException(Method method, Exception e) {
+        logger.error("Failure to run method --> {}; Exception --> {}", method.getName(), e.getCause().getCause().getMessage());
     }
 
 }

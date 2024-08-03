@@ -1,23 +1,25 @@
 package ru.otus.model;
 
-public class StatInfo {
+import java.lang.reflect.Method;
+
+public class StatisticReflectionInfo {
     private int success;
     private int failed;
     private final StringBuilder successMethods;
     private final StringBuilder failedMethods;
 
-    public StatInfo() {
+    public StatisticReflectionInfo() {
         successMethods = new StringBuilder();
         failedMethods = new StringBuilder();
     }
 
-    public void addSuccess(String method){
-        successMethods.append(method).append("; ");
+    public void addSuccess(Method method){
+        successMethods.append(method.getName()).append("; ");
         success++;
     }
 
-    public void addFailed(String method){
-        failedMethods.append(method).append("; ");
+    public void addFailed(Method method){
+        failedMethods.append(method.getName()).append("; ");
         failed++;
     }
 
