@@ -26,11 +26,10 @@ public class TestManagerUtility {
         for (Method testMethod : testMethods) {
             Object object = clazz.getDeclaredConstructor().newInstance();
 
-            if (!invokeBeforeMethods(object, beforeMethods, testMethod, statisticReflectionInfo)) {
-                continue;
+            if (invokeBeforeMethods(object, beforeMethods, testMethod, statisticReflectionInfo)) {
+                invokeTestMethod(object, testMethod, statisticReflectionInfo);
             }
 
-            invokeTestMethod(object, testMethod, statisticReflectionInfo);
             invokeMethods(object, afterMethods);
         }
 
