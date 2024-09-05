@@ -1,4 +1,7 @@
-package ru.otus.proxy;
+package ru.otus;
+
+import ru.otus.proxy.Ioc;
+import ru.otus.proxy.TestLogging;
 
 public class Main {
     public static void main(String[] args) {

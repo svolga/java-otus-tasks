@@ -11,11 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class Ioc {
+public class Ioc {
 
     private static final Logger logger = LoggerFactory.getLogger(Ioc.class);
 
-    static TestLogging createMyClass() {
+    public static TestLogging createMyClass() {
         java.lang.reflect.InvocationHandler handler = new InvocationHandler(new TestLoggingImpl());
         return (TestLogging)
                 Proxy.newProxyInstance(Ioc.class.getClassLoader(), new Class<?>[]{TestLogging.class}, handler);
