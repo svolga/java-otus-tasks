@@ -24,8 +24,7 @@ public class FileSerializer implements Serializer {
         try (var bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
             mapper.writeValue(bufferedWriter, data);
         } catch (IOException e) {
-            System.out.println("Error of file writing --> " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new FileProcessException(e);
         }
     }
 }
