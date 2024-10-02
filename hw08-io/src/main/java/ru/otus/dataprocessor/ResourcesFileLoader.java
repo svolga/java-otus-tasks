@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.json.Json;
 
+import java.io.IOException;
 import java.util.List;
 
 import jakarta.json.JsonArray;
@@ -32,6 +33,9 @@ public class ResourcesFileLoader implements Loader {
             JsonArray jsonArray = jsonReader.readArray();
             measurements = objectMapper.readValue(jsonArray.toString(), new TypeReference<>() {
             });
+        } catch (JsonProcessingException ex) {
+            logger.error(ex.getMessage());
+            throw ex;
         }
         return measurements;
     }
