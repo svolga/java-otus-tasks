@@ -31,3 +31,8 @@ svolga@rambler.ru
 # hw07-patterns
 
 Структурные паттерны
+
+
+# hw08-io
+
+Обработчик json-ов
