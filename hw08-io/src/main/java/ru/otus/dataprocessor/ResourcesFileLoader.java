@@ -2,7 +2,6 @@ package ru.otus.dataprocessor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.json.Json;
 
@@ -31,9 +30,9 @@ public class ResourcesFileLoader implements Loader {
         try (var jsonReader =
                      Json.createReader(getClass().getClassLoader().getResourceAsStream(fileName))) {
             JsonArray jsonArray = jsonReader.readArray();
-            measurements = objectMapper.readValue(jsonArray.toString(), new TypeReference<List<Measurement>>() {
+            measurements = objectMapper.readValue(jsonArray.toString(), new TypeReference<>() {
             });
         }
-        return List.copyOf(measurements);
+        return measurements;
     }
 }
