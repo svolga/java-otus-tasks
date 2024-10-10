@@ -34,14 +34,14 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 .filter(component ->
                         componentClass.isAssignableFrom(component.getClass()) ||
                                 component.getClass().equals(componentClass))
-                .collect(Collectors.toList());
+                .toList();
         if (list.isEmpty()) {
             throw new ComponentNotFoundException(String.format(ERROR_COMPONENT_NOT_FOUND, componentClass.getName()));
         }
         if (list.size() > 1) {
             throw new ComponentCountException(String.format(ERROR_COMPONENT_COUNT, componentClass.getName()));
         }
-        return (C) list.get(0);
+        return (C) list.getFirst();
     }
 
     @Override
