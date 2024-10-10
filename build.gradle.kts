@@ -33,8 +33,15 @@ allprojects {
     val testcontainersBom: String by project
     val protobufBom: String by project
     val guava: String by project
+    val jmh: String by project
     val glassfishJson: String by project
-    val gson: String by project
+    val asm: String by project
+    val jsr305: String by project
+    val redisson: String by project
+    val jetty: String by project
+    val freemarker: String by project
+
+    val reflections: String by project
 
     apply(plugin = "io.spring.dependency-management")
     dependencyManagement {
@@ -46,7 +53,7 @@ allprojects {
             }
             dependency("com.google.guava:guava:$guava")
             dependency("org.glassfish:jakarta.json:$glassfishJson")
-            dependency("com.google.code.gson:gson:$gson")
+            dependency("org.reflections:reflections:$reflections")
         }
     }
 

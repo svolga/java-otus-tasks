@@ -36,3 +36,8 @@ svolga@rambler.ru
 # hw08-io
 
 Обработчик json-ов
+
+
+# hw13-di
+
+Собственный IoC контейнер
