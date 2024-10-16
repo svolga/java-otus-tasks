@@ -25,8 +25,15 @@ public class HomeWork {
 
     public static void main(String[] args) {
         // Общая часть
-        var dataSource = new DriverManagerDataSource(URL, USER, PASSWORD);
-        flywayMigrations(dataSource);
+        try {
+            var dataSource = new DriverManagerDataSource(URL, USER, PASSWORD);
+            flywayMigrations(dataSource);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
+
+        /*
         var transactionRunner = new TransactionRunnerJdbc(dataSource);
         var dbExecutor = new DbExecutorImpl();
 
@@ -59,7 +66,7 @@ public class HomeWork {
         var managerSecondSelected = dbServiceManager
                 .getManager(managerSecond.getNo())
                 .orElseThrow(() -> new RuntimeException("Manager not found, id:" + managerSecond.getNo()));
-        log.info("managerSecondSelected:{}", managerSecondSelected);
+        log.info("managerSecondSelected:{}", managerSecondSelected);*/
     }
 
     private static void flywayMigrations(DataSource dataSource) {
