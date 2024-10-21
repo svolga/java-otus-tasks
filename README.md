@@ -37,6 +37,9 @@ svolga@rambler.ru
 
 Обработчик json-ов
 
+# hw09-jdbc
+
+Самодельный ORM
 
 # hw13-di
 
