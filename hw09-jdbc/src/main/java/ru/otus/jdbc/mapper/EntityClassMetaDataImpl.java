@@ -19,10 +19,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     private List<Field> extractFields() {
         return Arrays.stream(clazz.getDeclaredFields())
-                .map(field -> {
-                    field.setAccessible(true);
-                    return field;
-                })
+                .peek(field -> field.setAccessible(true))
                 .toList();
     }
 
