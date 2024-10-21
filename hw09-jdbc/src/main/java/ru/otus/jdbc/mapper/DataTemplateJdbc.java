@@ -2,6 +2,7 @@ package ru.otus.jdbc.mapper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -12,7 +13,10 @@ import ru.otus.core.repository.DataTemplate;
 import ru.otus.core.repository.DataTemplateException;
 import ru.otus.core.repository.executor.DbExecutor;
 
-/** Сохратяет объект в базу, читает объект из базы */
+/**
+ * Сохратяет объект в базу, читает объект из базы
+ */
+@SuppressWarnings({"java:S1068", "java:S3011"})
 public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     private EntityClassMetaDataImpl<T> entityClassMetaData;
@@ -41,7 +45,8 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
         });
     }
 
-    private T getObjFields(ResultSet rs, EntityClassMetaData<T> metaData) throws Exception {
+    private T getObjFields(ResultSet rs, EntityClassMetaData<T> metaData)
+            throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Constructor<T> constructor = metaData.getConstructor();
         T obj = constructor.newInstance();
         setObjFields(metaData, obj, rs);
@@ -81,9 +86,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
     }
 
     private List<Object> getInsertParams(EntityClassMetaData<T> metaData, T client) {
-        var fields = metaData.getFieldsWithoutId().stream()
-                .map(Field::getName)
-                .toList();
+        var fields = metaData.getFieldsWithoutId().stream().map(Field::getName).toList();
         var params = new ArrayList<>();
         for (String field : fields) {
             try {

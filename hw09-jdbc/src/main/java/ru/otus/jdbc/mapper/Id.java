@@ -1,4 +1,4 @@
-package ru.otus.annotation;
+package ru.otus.jdbc.mapper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,4 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Id {
-}
+public @interface Id {}

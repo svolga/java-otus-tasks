@@ -64,7 +64,6 @@ public class HomeWork {
                 .getManager(managerSecond.getNo())
                 .orElseThrow(() -> new RuntimeException("Manager not found, id:" + managerSecond.getNo()));
         log.info("managerSecondSelected:{}", managerSecondSelected);
-
     }
 
     private static void flywayMigrations(DataSource dataSource) {

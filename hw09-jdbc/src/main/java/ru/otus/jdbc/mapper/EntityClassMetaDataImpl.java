@@ -1,12 +1,12 @@
 package ru.otus.jdbc.mapper;
 
-import ru.otus.annotation.Id;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import ru.otus.core.repository.DataTemplateException;
 
+@SuppressWarnings({"java:S1068", "java:S3011"})
 public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     private final Class<T> clazz;
@@ -19,7 +19,10 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     private List<Field> extractFields() {
         return Arrays.stream(clazz.getDeclaredFields())
-                .peek(field -> field.setAccessible(true))
+                .map(field -> {
+                    field.setAccessible(true);
+                    return field;
+                })
                 .toList();
     }
 
@@ -32,8 +35,8 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     public Constructor<T> getConstructor() {
         try {
             return clazz.getConstructor();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new DataTemplateException(e);
         }
     }
 
@@ -56,5 +59,4 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
                 .filter(field -> !field.isAnnotationPresent(Id.class))
                 .toList();
     }
-
 }

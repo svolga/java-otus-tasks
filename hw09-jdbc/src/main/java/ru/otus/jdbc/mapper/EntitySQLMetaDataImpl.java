@@ -20,19 +20,24 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
 
     @Override
     public String getSelectByIdSql() {
-        return String.format("SELECT %s FROM %s WHERE %s = ? ",
-                concatAllFields(), entityClassMetaData.getName(), getIdFieldName());
+        return String.format(
+                "SELECT %s FROM %s WHERE %s = ? ", concatAllFields(), entityClassMetaData.getName(), getIdFieldName());
     }
 
     @Override
     public String getInsertSql() {
-        return String.format("INSERT INTO %s (%s) VALUES (%s) RETURNING %s",
-                entityClassMetaData.getName(), concatAllFieldsWithoutId(), concatAllValuesWithoutId(), getIdFieldName());
+        return String.format(
+                "INSERT INTO %s (%s) VALUES (%s) RETURNING %s",
+                entityClassMetaData.getName(),
+                concatAllFieldsWithoutId(),
+                concatAllValuesWithoutId(),
+                getIdFieldName());
     }
 
     @Override
     public String getUpdateSql() {
-        return String.format("UPDATE %s SET (%s) WHERE %s = ? ",
+        return String.format(
+                "UPDATE %s SET (%s) WHERE %s = ? ",
                 entityClassMetaData.getName(), concatAllUpdatedFields(), getIdFieldName());
     }
 
@@ -76,5 +81,4 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
     private String getIdFieldName() {
         return entityClassMetaData.getIdField().getName();
     }
-
 }
