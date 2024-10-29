@@ -41,6 +41,10 @@ svolga@rambler.ru
 
 Самодельный ORM
 
+# hw10-jpql
+
+Hibernate: Entity, Fetch, JPQL, SQL
+
 # hw13-di
 
 Собственный IoC контейнер
