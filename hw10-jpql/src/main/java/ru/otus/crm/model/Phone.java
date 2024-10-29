@@ -38,6 +38,7 @@ public class Phone implements Cloneable {
     }
 
     @Override
+    @SuppressWarnings({"java:S2975", "java:S1182"})
     protected Phone clone() {
         return new Phone(id, number, client);
     }

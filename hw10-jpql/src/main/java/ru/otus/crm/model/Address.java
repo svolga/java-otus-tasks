@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address implements Cloneable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -26,8 +25,8 @@ public class Address implements Cloneable {
     private String street;
 
     @Override
+    @SuppressWarnings({"java:S2975", "java:S1182"})
     public Address clone() {
         return new Address(this.id, this.street);
     }
-
 }

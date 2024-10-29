@@ -12,10 +12,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -62,10 +60,10 @@ public class Client implements Cloneable {
     }
 
     @Override
+    @SuppressWarnings({"java:S2975", "java:S1182"})
     public Client clone() {
         var phonesToClone = phones.stream().map(Phone::clone).toList();
         var addressToClone = (address == null ? null : address.clone());
         return new Client(id, name, addressToClone, phonesToClone);
     }
-
 }

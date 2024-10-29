@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.base.AbstractHibernateTest;
@@ -19,7 +18,8 @@ class DataTemplateHibernateTest extends AbstractHibernateTest {
     @DisplayName(" корректно сохраняет, изменяет и загружает клиента по заданному id")
     void shouldSaveAndFindCorrectClientById() {
         // given
-        var client = new Client(null,
+        var client = new Client(
+                null,
                 "Vasya",
                 new Address(null, "AnyStreet"),
                 List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
@@ -75,6 +75,5 @@ class DataTemplateHibernateTest extends AbstractHibernateTest {
         // then
         assertThat(clientList).hasSize(1);
         assertThat(clientList.getFirst()).usingRecursiveComparison().isEqualTo(savedClient);
-
     }
 }
