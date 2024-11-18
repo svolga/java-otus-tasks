@@ -11,6 +11,7 @@ include("hw08-io")
 include("hw09-jdbc")
 include("hw10-jpql")
 include("hw13-di")
+include("hw15-thread")
 
 pluginManagement {
     val jgitver: String by settings
