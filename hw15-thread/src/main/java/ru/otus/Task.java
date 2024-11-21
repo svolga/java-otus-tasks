@@ -2,7 +2,7 @@ package ru.otus;
 
 public class Task implements Runnable {
 
-    private TaskPrinter printer;
+    private final TaskPrinter printer;
     private final boolean isShouldStartFirst;
     private final int min;
     private final int max;
