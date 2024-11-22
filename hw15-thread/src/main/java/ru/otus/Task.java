@@ -5,11 +5,11 @@ public class Task implements Runnable{
     private final TaskPrinter printer;
     private final int min;
     private final int max;
-    private final boolean isRunFirst;
+    private final boolean isRunningFirst;
 
-    public Task(TaskPrinter printer, boolean isRunFirst, int min, int max) {
+    public Task(TaskPrinter printer, boolean isRunningFirst, int min, int max) {
         this.printer = printer;
-        this.isRunFirst = isRunFirst;
+        this.isRunningFirst = isRunningFirst;
         this.min = min;
         this.max = max;
     }
@@ -24,13 +24,13 @@ public class Task implements Runnable{
 
     private void up() {
         for (int i = min; i <= max; i++) {
-            printer.runWork(i, isRunFirst);
+            printer.runWork(i, isRunningFirst);
         }
     }
 
     private void down() {
         for (int i = max - 1; i > min; i--) {
-            printer.runWork(i, isRunFirst);
+            printer.runWork(i, isRunningFirst);
         }
     }
 
