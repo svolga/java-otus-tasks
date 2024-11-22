@@ -18,18 +18,18 @@ public class TaskPrinter {
     }
 
     synchronized void runWork(int number, boolean isShouldStartFirst) {
-        while (isShouldStart == isShouldStartFirst) {
-            try {
+        try {
+            while (isShouldStart == isShouldStartFirst) {
                 wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
             }
-        }
-        logger.info("{}: {}", Thread.currentThread().getName(), number);
-        isShouldStart = !isShouldStart;
-        sleep();
-        notifyAll();
-    }
 
+            logger.info("{}: {}", Thread.currentThread().getName(), number);
+            isShouldStart = !isShouldStart;
+            sleep();
+            notifyAll();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 
 }
