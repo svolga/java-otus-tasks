@@ -1,15 +1,15 @@
 package ru.otus;
 
-public class Task implements Runnable {
+public class Task implements Runnable{
 
     private final TaskPrinter printer;
-    private final boolean isShouldStartFirst;
     private final int min;
     private final int max;
+    private final boolean isRunFirst;
 
-    public Task(TaskPrinter printer, boolean isShouldStartFirst, int min, int max) {
+    public Task(TaskPrinter printer, boolean isRunFirst, int min, int max) {
         this.printer = printer;
-        this.isShouldStartFirst = isShouldStartFirst;
+        this.isRunFirst = isRunFirst;
         this.min = min;
         this.max = max;
     }
@@ -24,13 +24,13 @@ public class Task implements Runnable {
 
     private void up() {
         for (int i = min; i <= max; i++) {
-            printer.runWork(i, isShouldStartFirst);
+            printer.runWork(i, isRunFirst);
         }
     }
 
     private void down() {
         for (int i = max - 1; i > min; i--) {
-            printer.runWork(i, isShouldStartFirst);
+            printer.runWork(i, isRunFirst);
         }
     }
 

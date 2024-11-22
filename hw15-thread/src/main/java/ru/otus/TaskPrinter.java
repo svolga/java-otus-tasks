@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 
 public class TaskPrinter {
 
-    private volatile boolean isShouldStart;
+    private volatile boolean isLast;
+
     private final Logger logger = LoggerFactory.getLogger(TaskPrinter.class);
 
     private void sleep() {
@@ -17,19 +18,22 @@ public class TaskPrinter {
         }
     }
 
-    synchronized void runWork(int number, boolean isShouldStartFirst) {
+    synchronized void runWork(int number, boolean isRunning) {
+
         try {
-            while (isShouldStart == isShouldStartFirst) {
+            while (isLast == isRunning) {
                 wait();
             }
-
             logger.info("{}: {}", Thread.currentThread().getName(), number);
-            isShouldStart = !isShouldStart;
+            isLast = !isLast;
             sleep();
             notifyAll();
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
-
 }
+
+
+
